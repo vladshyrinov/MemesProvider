@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { ImgurApiComponentComponent } from './imgur-api-component/imgur-api-component.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ImgurApiComponentComponent
   ],
   imports: [
     BrowserModule
