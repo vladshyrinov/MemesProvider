@@ -1,11 +1,11 @@
 export class Meme {
-    constructor(
-        private id: string,
-        private imageLinks: Array<string>,
-        private raiting: number
-    ) {
-        id = '';
-        imageLinks = [];
-        raiting = 0;
+    id: string;
+    imageLinks: Array<string>;
+    rating: number;
+
+    constructor(_id: string, _imageLinks: Array<string>, _rating: number) {
+        this.id = _id;
+        this.imageLinks = _imageLinks;
+        this.rating = _rating;
     }
 }

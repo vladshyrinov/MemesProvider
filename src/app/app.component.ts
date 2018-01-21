@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ImgurApiService} from './services/imgur-api/imgur-api.service';
-import {Meme} from './shared/Meme';
+import { ImgurApiService } from './services/imgur-api/imgur-api.service';
+import { FirebaseService } from './services/firebase/firebase.service';
+import { Meme } from './shared/Meme';
+import { AngularFireList } from 'angularfire2/database';
 
 @Component({
   selector: 'app-root',
@@ -8,33 +10,17 @@ import {Meme} from './shared/Meme';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  memes: Array<Meme> = [];
+  memes: AngularFireList<Meme>;
 
-  constructor(private imgurApiService: ImgurApiService) {
+  constructor(
+    private firebaseService: FirebaseService
+  ) {
   }
 
   ngOnInit(): void {
-    const promise = this.imgurApiService.getMemes();
-    promise.then(response => {
-      this.memes = response['data'].map((meme) => {
-        return new Meme(meme.id, this.checkLink(meme), 0);
-      });
-      console.log(this.memes);
-    });
-  }
-
-  checkLink(meme): Array<string> {
-    let links: Array<string> = [];
-
-    if (meme.images) {
-      links = meme.images.map((img) => {
-        return img.link;
-      });
-    } else {
-      links = [meme.link];
-    }
-
-    return links;
+    // const meme = new Meme('sad', ['123'], 4);
+    // this.firebaseService.getSelectedMemes();
+    // this.firebaseService.insertMeme(meme);
   }
 
 }
