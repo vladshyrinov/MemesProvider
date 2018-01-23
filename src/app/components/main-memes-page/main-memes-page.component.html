@@ -1,3 +1,8 @@
-<section class="jumbotron">
-    <p>Main memes</p>
+<section class="container" *ngIf="memesToShow">
+    <div class="row d-flex flex-column align-items-center">
+        <div *ngFor="let meme of memesToShow">
+            <app-meme [meme]="meme"></app-meme>
+        </div>
+    </div>
 </section>
+  

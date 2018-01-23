@@ -12,7 +12,6 @@ export class ImgurApiService {
       'Authorization': 'Client-ID 6dea1753296ad3c'})
   };
 
-
   constructor (private http: HttpClient) {
   }
 

@@ -6,7 +6,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { RouterModule, Routes} from '@angular/router';
 
 import { ImgurApiService } from './services/imgur-api/imgur-api.service';
-import { FirebaseService } from './services/firebase/firebase.service';
+import { MemeService } from './services/meme/meme.service';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -36,7 +36,7 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ImgurApiService, FirebaseService],
+  providers: [ImgurApiService, MemeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

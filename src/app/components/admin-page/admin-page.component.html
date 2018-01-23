@@ -1,5 +1,9 @@
-<section class="jumbotron">
-  <p>
-    admin-page works!
-  </p>
+<section class="container" *ngIf="selectedMemes">
+    <div class="row d-flex flex-column align-items-center">
+        <div *ngFor="let meme of selectedMemes">
+            <h1 class="text-align-center">Rating {{meme.rating}}</h1>
+            <app-meme [meme]="meme" (click) = "sendToMainPage(meme)"></app-meme>
+        </div>
+    </div>
 </section>
+  

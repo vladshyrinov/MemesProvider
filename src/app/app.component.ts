@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ImgurApiService } from './services/imgur-api/imgur-api.service';
-import { FirebaseService } from './services/firebase/firebase.service';
 import { Meme } from './shared/Meme';
-import { AngularFireList } from 'angularfire2/database';
+import { MemeService } from './services/meme/meme.service';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +8,14 @@ import { AngularFireList } from 'angularfire2/database';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  memes: AngularFireList<Meme>;
 
   constructor(
-    private firebaseService: FirebaseService
+    private memeService: MemeService
   ) {
   }
 
-  ngOnInit(): void {
-    // const meme = new Meme('sad', ['123'], 4);
-    // this.firebaseService.getSelectedMemes();
-    // this.firebaseService.insertMeme(meme);
+  ngOnInit() {
+    // console.log(this.memeService.memesDataInitialization());
   }
 
 }

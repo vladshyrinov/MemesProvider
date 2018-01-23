@@ -1,4 +1,4 @@
-<div class="card shadow d-flex flex-column align-items-center pt-2 pb-2 mb-3">
+<div *ngIf="meme" class="card shadow pointer d-flex flex-column align-items-center pt-2 pb-2 mb-3" (click) = onChooseMeme(meme)>
   <img class="text-center"
    *ngFor="let link of meme.imageLinks"
    width="300"

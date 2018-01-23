@@ -1,7 +1,7 @@
 <section class="container">
-  <div class="row">
+  <div class="row" *ngIf="memesToChoose">
     <div class="col-md-6" *ngFor="let meme of memesToChoose">
-      <app-meme [meme]="meme"></app-meme>
+      <app-meme [meme]="meme" (chosenMeme) = "onChooseMeme($event)"></app-meme>
     </div>
   </div>
 </section>

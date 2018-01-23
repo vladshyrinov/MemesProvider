@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Meme } from '../../../shared/Meme';
+import { MemeService } from '../../../services/meme/meme.service';
 
 
 @Component({
@@ -9,10 +10,15 @@ import { Meme } from '../../../shared/Meme';
 })
 export class MemeComponent implements OnInit {
   @Input() meme: Meme;
+  @Output() chosenMeme: EventEmitter<Meme> = new EventEmitter<Meme>();
 
-  constructor() { }
-  
+  constructor(private memeService: MemeService) { }
+
   ngOnInit() {
+  }
+
+  onChooseMeme(meme: Meme) {
+    this.chosenMeme.emit(meme);
   }
 
 }

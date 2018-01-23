@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImgurApiService } from '../../services/imgur-api/imgur-api.service';
-import { FirebaseService } from '../../services/firebase/firebase.service';
+import { MemeService } from '../../services/meme/meme.service';
 import { Meme } from '../../shared/Meme';
 
 @Component({
@@ -9,49 +8,61 @@ import { Meme } from '../../shared/Meme';
   styleUrls: ['./meme-chooser-page.component.css']
 })
 export class MemeChooserPageComponent implements OnInit {
-  memesToChoose: Array<Meme> = [];
+  memesToChoose: Meme[] = [];
+  selectedMemes: Meme[] = [];
 
-  constructor(
-    private imgurApiService: ImgurApiService,
-    private firebaseService: FirebaseService
-  ) { }
+  constructor(private memeService: MemeService) {
 
-  ngOnInit() {
-    this.assignMemesToChoose();
   }
 
-  assignMemesToChoose() {
-    const pageNumber = Math.ceil(Math.random() * 2);
-    const promise = this.imgurApiService.getMemes(pageNumber);
-    promise.then(response => {
-      const memes = response['data'].map((meme) => {
-        return new Meme(meme.id, this.checkLink(meme), 0);
-      });
-
-      const memesIndexes = [];
-
-      for (let i = 0; i < 2; i++) {
-        memesIndexes.push(Math.floor(Math.random() * 60));
+  ngOnInit() {
+    this.memeService.memesDataObservable().subscribe(memes => {
+      if (memes.length) {
+        memes.forEach((memeData, index) => {
+          const memeJSON = memeData.payload.toJSON();
+          memeJSON['$key'] = memeData.key;
+          const imageLinks = Object.values(memeJSON['imageLinks']);
+          memeJSON['imageLinks'] = imageLinks;
+          const memeClass = this.memeService.toMeme(memeJSON);
+          this.selectedMemes[index] = memeClass;
+        });
+      } else {
+        this.memeService.assignMemesToFirebase();
+        memes.forEach((memeData, index) => {
+          const memeJSON = memeData.payload.toJSON();
+          memeJSON['$key'] = memeData.key;
+          const imageLinks = Object.values(memeJSON['imageLinks']);
+          memeJSON['imageLinks'] = imageLinks;
+          const memeClass = this.memeService.toMeme(memeJSON);
+          this.selectedMemes[index] = memeClass;
+        });
       }
-
-      memesIndexes.forEach((index) => {
-        this.memesToChoose.push(memes[index]);
-      });
+      this.assignMemesToChoose(this.selectedMemes);
     });
   }
 
-  checkLink(meme): Array<string> {
-    let links: Array<string> = [];
-
-    if (meme.images) {
-      links = meme.images.map((img) => {
-        return img.link;
-      });
+  onChooseMeme(meme: Meme) {
+    if (!meme.$key) {
+      this.memeService.insertMeme(meme);
     } else {
-      links = [meme.link];
+      meme.rating++;
+      this.memeService.updateMeme(meme);
+    }
+    this.assignMemesToChoose(this.selectedMemes);
+  }
+
+  assignMemesToChoose(memes) {
+    this.memesToChoose = [];
+    const memesIndexes = [];
+
+    for (let i = 0; i < 2; i++) {
+      memesIndexes.push(Math.floor(Math.random() * 50));
     }
 
-    return links;
+    memesIndexes.forEach((index) => {
+      this.memesToChoose.push(memes[index]);
+    });
   }
+
 
 }
